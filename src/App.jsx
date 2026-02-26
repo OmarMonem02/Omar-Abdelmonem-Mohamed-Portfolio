@@ -62,7 +62,7 @@ export default function OmarPortfolio() {
 
   /* ================= LOADING ================= */
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1300);
+    const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -165,7 +165,7 @@ export default function OmarPortfolio() {
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.2 }}
             className={
               (dark
                 ? "bg-gradient-to-br from-[#0f0f1a] to-[#141427]"
