@@ -438,6 +438,17 @@ export default function OmarPortfolio() {
               >
                 Contact Me
               </Button>
+              <Button
+                onClick={() =>
+                  window.open('/Omar%20Abdelmonem%20Mohamed.pdf', '_blank', 'noopener,noreferrer')
+                }
+                className={
+                  "bg-gray-800 text-white hover:bg-gray-700 shadow-lg px-6 py-2 rounded-2xl font-medium transition-all duration-300"
+                }
+                aria-label="View CV"
+              >
+                View CV
+              </Button>
             </motion.div>
           </div>
         </motion.section>
