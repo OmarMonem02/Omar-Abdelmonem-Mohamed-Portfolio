@@ -589,20 +589,15 @@ export default function OmarPortfolio() {
               " border rounded-2xl p-8 backdrop-blur-xl shadow-lg transition duration-300 hover:shadow-xl"
             }
           >
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start">
               <div className="flex-1">
                 <h3 className="text-2xl font-semibold">
                   Canadian International College (CIC)
                 </h3>
                 <p className="text-indigo-500 font-medium mt-2 text-lg">
-                  Bachelor of Business Information Technology
+                  Bachelor of Business Information Technology (2020 – 2024)
                 </p>
-                <p className="text-sm opacity-60 mt-1">New Cairo, Egypt</p>
-              </div>
-
-              <div className="text-right">
-                <span className="text-sm font-semibold opacity-70 block">2020 – 2024</span>
-                <span className="text-xs opacity-50">4 Years</span>
+                <p className="text-sm opacity-60 mt-1">El Sheikh Zayed, Egypt</p>
               </div>
             </div>
 
@@ -663,13 +658,13 @@ export default function OmarPortfolio() {
               >
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="font-semibold text-lg flex-1">{project.title}</h3>
-                  <motion.span
+                  {/* <motion.span
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="text-xs px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400"
                   >
                     New
-                  </motion.span>
+                  </motion.span> */}
                 </div>
                 <p className="text-xs opacity-60 mb-3 font-medium">{project.duration}</p>
                 <p className="text-sm opacity-80 mb-4 leading-relaxed">{project.desc}</p>
