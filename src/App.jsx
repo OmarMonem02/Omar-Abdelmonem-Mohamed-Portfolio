@@ -4,17 +4,29 @@ import { Github, Linkedin, Mail, Phone, MapPin, Sun, Moon, X } from "lucide-reac
 import { SiFlutter, SiLaravel, SiMysql, SiFirebase } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 
+/* ================= MOTION VARIANTS ================= */
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+const blobAnimation = {
+  animate: { x: [0, 20, 0, -20, 0], y: [0, -20, 0, 20, 0] },
+  transition: { duration: 20, repeat: Infinity, ease: "easeInOut" },
+};
+
 /* ================= BUTTON ================= */
+// turn into motion button for tap feedback
 const Button = React.memo(({ children, className = "", ...props }) => (
-  <button
+  <motion.button
     {...props}
+    whileTap={{ scale: 0.95 }}
     className={
       "px-6 py-2 rounded-2xl font-medium transition-all duration-300 " +
       className
     }
   >
     {children}
-  </button>
+  </motion.button>
 ));
 
 /* ================= TECH ICON MAP ================= */
@@ -108,13 +120,29 @@ export default function OmarPortfolio() {
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {dark ? (
           <>
-            <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[180px] animate-pulse" />
-            <div className="absolute bottom-[-200px] right-[-150px] w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[200px] animate-pulse" />
+            <motion.div
+            className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[180px]"
+            variants={blobAnimation}
+            animate="animate"
+          />
+          <motion.div
+            className="absolute bottom-[-200px] right-[-150px] w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[200px]"
+            variants={blobAnimation}
+            animate="animate"
+          />
           </>
         ) : (
           <>
-            <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-sky-300/40 rounded-full blur-[160px]" />
-            <div className="absolute bottom-[-200px] right-[-150px] w-[600px] h-[600px] bg-pink-300/40 rounded-full blur-[180px]" />
+            <motion.div
+            className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-sky-300/40 rounded-full blur-[160px]"
+            variants={blobAnimation}
+            animate="animate"
+          />
+          <motion.div
+            className="absolute bottom-[-200px] right-[-150px] w-[600px] h-[600px] bg-pink-300/40 rounded-full blur-[180px]"
+            variants={blobAnimation}
+            animate="animate"
+          />
           </>
         )}
       </div>
@@ -196,12 +224,14 @@ export default function OmarPortfolio() {
       </AnimatePresence>
 
       {/* ================= THEME TOGGLE ================= */}
-      <button
+      <motion.button
         onClick={() => setDark(!dark)}
+        animate={{ rotate: dark ? 0 : 180 }}
+        transition={{ duration: 0.5 }}
         className="fixed top-6 right-6 z-50 p-3 rounded-full backdrop-blur-xl border border-white/20 bg-white/10 shadow-lg"
       >
         {dark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
+      </motion.button>
 
       <div className="px-6 md:px-16 py-16 space-y-10 relative z-10">
         {/* HERO */}
@@ -441,7 +471,15 @@ export default function OmarPortfolio() {
           </div>
         </motion.section>
         {/* PROJECTS */}
-        <section ref={projectsRef}>
+        <motion.section
+          ref={projectsRef}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.1 } },
+          }}
+        >
           <div className="mb-8">
             <h2 className="text-3xl font-bold">Projects</h2>
             <div className="w-28 h-[3px] bg-indigo-500 rounded-full mt-2" />
@@ -450,6 +488,7 @@ export default function OmarPortfolio() {
             {projects.map((project, i) => (
               <motion.div
                 key={i}
+                variants={fadeInUp}
                 whileHover={{ y: -8 }}
                 onClick={() => setActiveProject(project)}
                 className="bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl cursor-pointer backdrop-blur-xl transition"
@@ -460,7 +499,7 @@ export default function OmarPortfolio() {
               </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* CONTACT */}
         <section ref={contactMeRef} className="text-center space-y-6">
@@ -468,7 +507,7 @@ export default function OmarPortfolio() {
 
           <div className="flex flex-col md:flex-row gap-8 justify-center items-center opacity-80">
             <div className="flex items-center gap-2">
-              <Mail size={18} /> omarabdelmonem91@gmail.coma
+              <Mail size={18} /> omarabdelmonem91@gmail.com
             </div>
             <div className="flex items-center gap-2">
               <Phone size={18} /> +201093818755
