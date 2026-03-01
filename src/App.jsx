@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import React, { useRef, useState, useEffect, useMemo } from "react";
-import { Github, Linkedin, Mail, Phone, MapPin, Sun, Moon, X } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, MapPin, Sun, Moon, X, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import imagesIndex from "./imagesIndex.json";
 import { SiFlutter, SiLaravel, SiMysql, SiFirebase } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 
@@ -49,6 +50,17 @@ export default function OmarPortfolio() {
   const [loading, setLoading] = useState(true);
   const [dark, setDark] = useState(true);
   const [activeProject, setActiveProject] = useState(null);
+  const [imageViewer, setImageViewer] = useState(null);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
+
+  // close viewer on Escape
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape" && imageViewer) setImageViewer(null);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [imageViewer]);
 
   /* ================= THEME ================= */
   useEffect(() => {
@@ -68,12 +80,13 @@ export default function OmarPortfolio() {
 
   /* ================= PROJECTS ================= */
   const projects = useMemo(() => {
-    const data = [
+    const baseData = [
       {
         title: "Localhub System – Web Developer",
         duration: "2024/11 – 2025/3",
         desc: "Web-based sales, inventory, and financial management system built with Laravel.",
         tech: ["Laravel", "MySQL", "REST APIs", "RBAC"],
+        imagesFolder: "/LocalHub",
         url: "https://github.com/NoureldinFarag1/capstone_pos",
         points: [
           "Designed modular sales & inventory workflows.",
@@ -89,6 +102,8 @@ export default function OmarPortfolio() {
         duration: "2024/6 – 2024/9",
         desc: "Cross-platform e-commerce mobile app for car parts with secure payments.",
         tech: ["Flutter", "Firebase", "BLoC", "Maps & GPS", "REST APIs", "Payment Gateway"],
+        projectCover: "/Shaffaf Edit Version/Shaffaf Mockup.png",
+        imagesFolder: "/Shaffaf Edit Version",
         url: "https://github.com/mohamedadel80080/Shfaff-App-Flutter",
         points: [
           "Developed scalable Flutter architecture using BLoC state management.",
@@ -104,6 +119,8 @@ export default function OmarPortfolio() {
         duration: "2024/3 – 2024/6",
         desc: "Train & subway ticket booking mobile app with real-time services.",
         tech: ["Flutter", "Realtime APIs", "Firebase", "Maps & GPS", "Payment Integration", "AI Chatbot"],
+        projectCover: "/portfolio.png",
+        imagesFolder: "/",
         url: "https://github.com/OmarMonem02/SubTrain",
         points: [
           "Led full mobile development lifecycle from design to deployment.",
@@ -115,7 +132,21 @@ export default function OmarPortfolio() {
         ],
       },
     ];
-    return data;
+
+    return baseData.map((p) => {
+      if (p.imagesFolder) {
+        p.images = imagesIndex[p.imagesFolder] || [];
+      }
+      // ensure projectCover falls back to first image if missing
+      if (!p.projectCover) {
+        p.projectCover = p.images && p.images.length ? p.images[0] : null;
+      }
+
+      if (!p.projectCover) {
+        p.projectCover = p.images && p.images.length ? p.images[0] : null;
+      }
+      return p;
+    });
   }, []);
 
   return (
@@ -264,6 +295,116 @@ export default function OmarPortfolio() {
         )}
       </AnimatePresence>
 
+      {/* ================= IMAGE VIEWER (FULLSCREEN) ================= */}
+      <AnimatePresence>
+        {imageViewer && (
+          <motion.div
+            onClick={() => setImageViewer(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-[95] p-6"
+          >
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full flex items-center justify-center"
+            >
+              <motion.img
+                key={imageViewer.images[imageViewer.index]}
+                src={imageViewer.images[imageViewer.index]}
+                alt="Project preview"
+                className="max-w-full max-h-[90vh] rounded-xl object-contain shadow-2xl"
+              />
+
+                {/* close button */}
+                <motion.button
+                  onClick={() => setImageViewer(null)}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white"
+                  aria-label="Close viewer"
+                >
+                  <X />
+                </motion.button>
+
+                {/* dot indicators */}
+                {imageViewer.images.length > 1 && (
+                  (() => {
+                    // determine which indices to show (max 5), keeping current index centered when possible
+                    const total = imageViewer.images.length;
+                    const maxDots = 7;
+                    let start = 0;
+                    if (total > maxDots) {
+                      start = Math.min(
+                        Math.max(imageViewer.index - Math.floor(maxDots / 2), 0),
+                        total - maxDots
+                      );
+                    }
+                    const indicesToShow = [];
+                    for (let i = start; i < Math.min(start + maxDots, total); i++) {
+                      indicesToShow.push(i);
+                    }
+
+                    return (
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-1 bg-black/30 px-2 py-1 rounded-full">
+                        {indicesToShow.map((idx) => (
+                          <span
+                            key={idx}
+                            className={
+                              "w-2 h-2 rounded-full transition-all duration-200 " +
+                              (idx === imageViewer.index
+                                ? "bg-indigo-500/50 scale-125"
+                                : "bg-white/50")
+                            }
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setImageViewer((s) => ({ ...s, index: idx }));
+                            }}
+                          />
+                        ))}
+                      </div>
+                    );
+                  })()
+                )}
+
+              {imageViewer.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() =>
+                      setImageViewer((s) => ({
+                        images: s.images,
+                        index: (s.index - 1 + s.images.length) % s.images.length,
+                      }))
+                    }
+                    className="absolute left-2 p-2 rounded-full bg-black/40 text-white"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft />
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      setImageViewer((s) => ({
+                        images: s.images,
+                        index: (s.index + 1) % s.images.length,
+                      }))
+                    }
+                    className="absolute right-2 p-2 rounded-full bg-black/40 text-white"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight />
+                  </button>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ================= PROJECT MODAL ================= */}
       <AnimatePresence>
         {activeProject && (
@@ -286,13 +427,23 @@ export default function OmarPortfolio() {
                 " border rounded-3xl p-6 max-w-lg w-full backdrop-blur-xl shadow-2xl"
               }
             >
+              {activeProject.images && activeProject.images.length > 0 && (
+                <div className="mb-4 relative">
+                  <img
+                    src={activeProject.images[modalImageIndex]}
+                    alt={activeProject.title + " screenshot"}
+                    className="w-full h-44 object-cover rounded-xl"
+                  />
+                </div>
+              )}
+
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-xl font-semibold">{activeProject.title}</h3>
                   <p className="text-sm opacity-70">{activeProject.duration}</p>
                 </div>
                 <motion.button
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setActiveProject(null)}
                 >
@@ -312,7 +463,7 @@ export default function OmarPortfolio() {
                 {activeProject.tech.map((t, i) => (
                   <motion.div
                     key={i}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.01 }}
                     className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-sm"
                   >
                     {techIcons[t] || <TbApi />}
@@ -326,7 +477,7 @@ export default function OmarPortfolio() {
                     href={activeProject.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.95 }}
                     className="inline-block px-6 py-2 rounded-2xl font-medium transition-all duration-300 bg-gray-800 text-white hover:bg-gray-700"
                   >
@@ -364,7 +515,7 @@ export default function OmarPortfolio() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6 }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.01 }}
               className="relative flex items-center justify-center"
             >
               {/* Soft Subtle Ring */}
@@ -622,13 +773,13 @@ export default function OmarPortfolio() {
 
               <div className="flex flex-wrap gap-2">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.01 }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/20 text-indigo-400 rounded-full text-sm border border-indigo-500/30 font-medium"
                 >
                   ⭐ A+ Grade
                 </motion.div>
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.01 }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm border border-purple-500/30 font-medium"
                 >
                   🏆 Ranked 2nd Place
@@ -658,8 +809,11 @@ export default function OmarPortfolio() {
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                whileHover={{ y: -8, scale: 1.02 }}
-                onClick={() => setActiveProject(project)}
+                whileHover={{ scale: 1.01 }}
+                onClick={() => {
+                  setActiveProject(project);
+                  setModalImageIndex(0);
+                }}
                 className={
                   (dark
                     ? "bg-white/5 border-white/20 hover:bg-white/10 hover:border-white/30"
@@ -667,6 +821,28 @@ export default function OmarPortfolio() {
                   " border rounded-2xl p-8 shadow-xl cursor-pointer backdrop-blur-xl transition duration-300 hover:shadow-2xl"
                 }
               >
+                {(project.projectCover || (project.images && project.images.length > 0)) && (
+                  <div className="mb-4 relative">
+                    <img
+                      src={project.projectCover || project.images[0]}
+                      alt={project.title + " screenshot"}
+                      className="w-full h-36 object-cover rounded-xl"
+                    />
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const imgs = project.images && project.images.length ? project.images : [project.projectCover];
+                        setImageViewer({ images: imgs, index: 0 });
+                      }}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="absolute top-3 right-3 p-2 rounded-full bg-black/10 backdrop-blur border border-white/20 text-white"
+                      aria-label={"Preview " + project.title}
+                    >
+                      <Eye size={16} />
+                    </motion.button>
+                  </div>
+                )}
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="font-semibold text-lg flex-1">{project.title}</h3>
                   {/* <motion.span
@@ -712,13 +888,13 @@ export default function OmarPortfolio() {
 
           <div className="flex flex-col md:flex-row gap-8 justify-center items-center opacity-80">
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.01 }}
               className="flex items-center gap-2"
             >
               <Mail size={18} /> omarabdelmonem91@gmail.com
             </motion.div>
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.01 }}
               className="flex items-center gap-2"
             >
               <Phone size={18} /> +201093818755
