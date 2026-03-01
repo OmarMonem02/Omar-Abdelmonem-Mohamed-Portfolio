@@ -1,6 +1,23 @@
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import React, { useRef, useState, useEffect, useMemo } from "react";
-import { Github, Linkedin, Mail, Phone, MapPin, Sun, Moon, X, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+  Sun,
+  Moon,
+  X,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import imagesIndex from "./imagesIndex.json";
 import { SiFlutter, SiLaravel, SiMysql, SiFirebase } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
@@ -101,7 +118,14 @@ export default function OmarPortfolio() {
         title: "Shaffaf Project – Flutter Developer",
         duration: "2024/6 – 2024/9",
         desc: "Cross-platform e-commerce mobile app for car parts with secure payments.",
-        tech: ["Flutter", "Firebase", "BLoC", "Maps & GPS", "REST APIs", "Payment Gateway"],
+        tech: [
+          "Flutter",
+          "Firebase",
+          "BLoC",
+          "Maps & GPS",
+          "REST APIs",
+          "Payment Gateway",
+        ],
         projectCover: "/Shaffaf Edit Version/Shaffaf Mockup.png",
         imagesFolder: "/Shaffaf Edit Version",
         url: "https://github.com/mohamedadel80080/Shfaff-App-Flutter",
@@ -118,7 +142,14 @@ export default function OmarPortfolio() {
         title: "SubTrain Project – Flutter Developer",
         duration: "2024/3 – 2024/6",
         desc: "Train & subway ticket booking mobile app with real-time services.",
-        tech: ["Flutter", "Realtime APIs", "Firebase", "Maps & GPS", "Payment Integration", "AI Chatbot"],
+        tech: [
+          "Flutter",
+          "Realtime APIs",
+          "Firebase",
+          "Maps & GPS",
+          "Payment Integration",
+          "AI Chatbot",
+        ],
         projectCover: "/portfolio.png",
         imagesFolder: "/",
         url: "https://github.com/OmarMonem02/SubTrain",
@@ -266,7 +297,8 @@ export default function OmarPortfolio() {
               </h1>
               <p
                 className={
-                  (dark ? "text-gray-300" : "text-gray-600") + " text-lg font-medium"
+                  (dark ? "text-gray-300" : "text-gray-600") +
+                  " text-lg font-medium"
                 }
               >
                 Junior Software Engineer
@@ -320,56 +352,59 @@ export default function OmarPortfolio() {
                 className="max-w-full max-h-[90vh] rounded-xl object-contain shadow-2xl"
               />
 
-                {/* close button */}
-                <motion.button
-                  onClick={() => setImageViewer(null)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white"
-                  aria-label="Close viewer"
-                >
-                  <X />
-                </motion.button>
+              {/* close button */}
+              <motion.button
+                onClick={() => setImageViewer(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white"
+                aria-label="Close viewer"
+              >
+                <X />
+              </motion.button>
 
-                {/* dot indicators */}
-                {imageViewer.images.length > 1 && (
-                  (() => {
-                    // determine which indices to show (max 5), keeping current index centered when possible
-                    const total = imageViewer.images.length;
-                    const maxDots = 7;
-                    let start = 0;
-                    if (total > maxDots) {
-                      start = Math.min(
-                        Math.max(imageViewer.index - Math.floor(maxDots / 2), 0),
-                        total - maxDots
-                      );
-                    }
-                    const indicesToShow = [];
-                    for (let i = start; i < Math.min(start + maxDots, total); i++) {
-                      indicesToShow.push(i);
-                    }
-
-                    return (
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-1 bg-black/30 px-2 py-1 rounded-full">
-                        {indicesToShow.map((idx) => (
-                          <span
-                            key={idx}
-                            className={
-                              "w-2 h-2 rounded-full transition-all duration-200 " +
-                              (idx === imageViewer.index
-                                ? "bg-indigo-500/50 scale-125"
-                                : "bg-white/50")
-                            }
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setImageViewer((s) => ({ ...s, index: idx }));
-                            }}
-                          />
-                        ))}
-                      </div>
+              {/* dot indicators */}
+              {imageViewer.images.length > 1 &&
+                (() => {
+                  // determine which indices to show (max 5), keeping current index centered when possible
+                  const total = imageViewer.images.length;
+                  const maxDots = 7;
+                  let start = 0;
+                  if (total > maxDots) {
+                    start = Math.min(
+                      Math.max(imageViewer.index - Math.floor(maxDots / 2), 0),
+                      total - maxDots,
                     );
-                  })()
-                )}
+                  }
+                  const indicesToShow = [];
+                  for (
+                    let i = start;
+                    i < Math.min(start + maxDots, total);
+                    i++
+                  ) {
+                    indicesToShow.push(i);
+                  }
+
+                  return (
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-1 bg-black/30 px-2 py-1 rounded-full">
+                      {indicesToShow.map((idx) => (
+                        <span
+                          key={idx}
+                          className={
+                            "w-2 h-2 rounded-full transition-all duration-200 " +
+                            (idx === imageViewer.index
+                              ? "bg-indigo-500/50 scale-125"
+                              : "bg-white/50")
+                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setImageViewer((s) => ({ ...s, index: idx }));
+                          }}
+                        />
+                      ))}
+                    </div>
+                  );
+                })()}
 
               {imageViewer.images.length > 1 && (
                 <>
@@ -377,7 +412,8 @@ export default function OmarPortfolio() {
                     onClick={() =>
                       setImageViewer((s) => ({
                         images: s.images,
-                        index: (s.index - 1 + s.images.length) % s.images.length,
+                        index:
+                          (s.index - 1 + s.images.length) % s.images.length,
                       }))
                     }
                     className="absolute left-2 p-2 rounded-full bg-black/40 text-white"
@@ -424,7 +460,7 @@ export default function OmarPortfolio() {
                 (dark
                   ? "bg-white/10 border-white/20"
                   : "bg-white border-gray-200") +
-                " border rounded-3xl p-6 max-w-lg w-full backdrop-blur-xl shadow-2xl"
+                " border rounded-3xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto backdrop-blur-xl shadow-2xl"
               }
             >
               {activeProject.images && activeProject.images.length > 0 && (
@@ -439,7 +475,9 @@ export default function OmarPortfolio() {
 
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-xl font-semibold">{activeProject.title}</h3>
+                  <h3 className="text-xl font-semibold">
+                    {activeProject.title}
+                  </h3>
                   <p className="text-sm opacity-70">{activeProject.duration}</p>
                 </div>
                 <motion.button
@@ -591,7 +629,11 @@ export default function OmarPortfolio() {
               </Button>
               <Button
                 onClick={() =>
-                  window.open('/Omar%20Abdelmonem%20Mohamed.pdf', '_blank', 'noopener,noreferrer')
+                  window.open(
+                    "/Omar%20Abdelmonem%20Mohamed.pdf",
+                    "_blank",
+                    "noopener,noreferrer",
+                  )
                 }
                 className={
                   "bg-gray-800 text-white hover:bg-gray-700 shadow-lg px-6 py-2 rounded-2xl font-medium transition-all duration-300"
@@ -624,15 +666,16 @@ export default function OmarPortfolio() {
             }
           >
             <p className="opacity-90">
-              Junior Software Engineer with hands-on experience building mobile and
-              web applications. Specialized in Flutter for cross-platform development,
-              with additional experience in Laravel and MySQL.
+              Junior Software Engineer with hands-on experience building mobile
+              and web applications. Specialized in Flutter for cross-platform
+              development, with additional experience in Laravel and MySQL.
             </p>
 
             <p className="mt-4 opacity-80">
-              Experienced in RESTful API integration, payment systems, role-based
-              access control, and real-time data handling. Passionate about building
-              scalable, reliable systems and delivering high-quality user experiences.
+              Experienced in RESTful API integration, payment systems,
+              role-based access control, and real-time data handling. Passionate
+              about building scalable, reliable systems and delivering
+              high-quality user experiences.
             </p>
           </div>
         </motion.section>
@@ -729,7 +772,7 @@ export default function OmarPortfolio() {
             </motion.div>
           </div>
         </motion.section>
-          {/* ================= EDUCATION ================= */}
+        {/* ================= EDUCATION ================= */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -759,15 +802,20 @@ export default function OmarPortfolio() {
                 <p className="text-indigo-500 font-medium mt-2 text-lg">
                   Bachelor of Business Information Technology (2020 – 2024)
                 </p>
-                <p className="text-sm opacity-60 mt-1">El Sheikh Zayed, Egypt</p>
+                <p className="text-sm opacity-60 mt-1">
+                  El Sheikh Zayed, Egypt
+                </p>
               </div>
             </div>
 
             <div className="mt-6 space-y-4 border-t border-white/10 pt-6">
               <div>
                 <p className="opacity-90">
-                  <span className="font-medium text-indigo-400">Graduation Project: </span>
-                  <span className="font-medium">SubTrain</span> – Flutter Mobile Application for Train & Subway Ticketing
+                  <span className="font-medium text-indigo-400">
+                    Graduation Project:{" "}
+                  </span>
+                  <span className="font-medium">SubTrain</span> – Flutter Mobile
+                  Application for Train & Subway Ticketing
                 </p>
               </div>
 
@@ -821,17 +869,21 @@ export default function OmarPortfolio() {
                   " border rounded-2xl p-8 shadow-xl cursor-pointer backdrop-blur-xl transition duration-300 hover:shadow-2xl"
                 }
               >
-                {(project.projectCover || (project.images && project.images.length > 0)) && (
+                {(project.projectCover ||
+                  (project.images && project.images.length > 0)) && (
                   <div className="mb-4 relative">
                     <img
                       src={project.projectCover || project.images[0]}
                       alt={project.title + " screenshot"}
-                      className="w-full h-36 object-cover rounded-xl"
+                      className="w-full h-54 object-cover rounded-xl"
                     />
                     <motion.button
                       onClick={(e) => {
                         e.stopPropagation();
-                        const imgs = project.images && project.images.length ? project.images : [project.projectCover];
+                        const imgs =
+                          project.images && project.images.length
+                            ? project.images
+                            : [project.projectCover];
                         setImageViewer({ images: imgs, index: 0 });
                       }}
                       whileHover={{ scale: 1.01 }}
@@ -844,17 +896,16 @@ export default function OmarPortfolio() {
                   </div>
                 )}
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-semibold text-lg flex-1">{project.title}</h3>
-                  {/* <motion.span
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-xs px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400"
-                  >
-                    New
-                  </motion.span> */}
+                  <h3 className="font-semibold text-lg flex-1">
+                    {project.title}
+                  </h3>
                 </div>
-                <p className="text-xs opacity-60 mb-3 font-medium">{project.duration}</p>
-                <p className="text-sm opacity-80 mb-4 leading-relaxed">{project.desc}</p>
+                <p className="text-xs opacity-60 mb-3 font-medium">
+                  {project.duration}
+                </p>
+                <p className="text-sm opacity-80 mb-4 leading-relaxed">
+                  {project.desc}
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {project.tech.slice(0, 3).map((t, idx) => (
                     <span
@@ -907,8 +958,12 @@ export default function OmarPortfolio() {
                 whileHover={{ scale: 1.2, rotate: 10 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.6.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.6.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                 </svg>
               </motion.a>
               <motion.a
@@ -918,8 +973,12 @@ export default function OmarPortfolio() {
                 whileHover={{ scale: 1.2, rotate: -10 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
                 </svg>
               </motion.a>
             </div>
