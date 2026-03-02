@@ -21,6 +21,8 @@ import ProjectsSection from "./components/sections/ProjectsSection";
 import ProjectModal from "./components/projects/ProjectModal";
 import ImageViewer from "./components/projects/ImageViewer";
 
+/*vercel Insights*/
+import { SpeedInsights } from "@vercel/speed-insights/react";
 export default function App() {
   const containerRef = useRef(null);
   const projectsRef = useRef(null);
@@ -116,6 +118,7 @@ export default function App() {
         images={viewerImages}
         onClose={() => setViewerImages(null)}
       />
+      <SpeedInsights />
     </div>
   );
 }
