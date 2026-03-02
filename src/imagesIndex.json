@@ -12,14 +12,9 @@
     "/LocalHub/reports.png",
     "/LocalHub/syncing-database.png"
   ],
-  "/": [
-    "/portfolio.png",
-    "/profile.png"
-  ],
   "/Shaffaf Edit Version": [
     "/Shaffaf Edit Version/BMW car.png",
     "/Shaffaf Edit Version/Book appointment.png",
-    "/Shaffaf Edit Version/book appointment2.png",
     "/Shaffaf Edit Version/Cart.png",
     "/Shaffaf Edit Version/Categories.png",
     "/Shaffaf Edit Version/Edit Profile.png",
@@ -40,7 +35,8 @@
     "/Shaffaf Edit Version/Sign Up.png",
     "/Shaffaf Edit Version/Splash.png",
     "/Shaffaf Edit Version/Wheel product details.png",
-    "/Shaffaf Edit Version/Wheels Categories.png"
+    "/Shaffaf Edit Version/Wheels Categories.png",
+    "/Shaffaf Edit Version/book appointment2.png"
   ],
   "/SubTrain": [
     "/SubTrain/Confirm Train Ticket.png",
@@ -55,5 +51,9 @@
     "/SubTrain/Ticket QR.png",
     "/SubTrain/Tickets.png",
     "/SubTrain/Train Seat booking.png"
+  ],
+  "/": [
+    "/portfolio.png",
+    "/profile.png"
   ]
 }

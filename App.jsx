@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Github, Linkedin, Mail, Phone, MapPin, Sun, Moon } from "lucide-react";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const Button = ({ children, className, ...props }) => (
   <button
@@ -295,6 +296,7 @@ export default function OmarPortfolio() {
           © {new Date().getFullYear()} Omar Abdelmonem Mohamed
         </footer>
       </div>
+      <SpeedInsights />
     </div>
   );
 }
