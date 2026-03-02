@@ -97,7 +97,7 @@ export default function OmarPortfolio() {
 
   /* ================= PROJECTS ================= */
   const projects = useMemo(() => {
-    const baseData = [
+    const experianceProject = [
       {
         title: "Localhub System – Web Developer",
         duration: "2024/11 – 2025/3",
@@ -138,33 +138,9 @@ export default function OmarPortfolio() {
           "Enhanced performance with optimized state updates.",
         ],
       },
-      {
-        title: "SubTrain Project – Flutter Developer",
-        duration: "2024/3 – 2024/6",
-        desc: "Train & subway ticket booking mobile app with real-time services.",
-        tech: [
-          "Flutter",
-          "Realtime APIs",
-          "Firebase",
-          "Maps & GPS",
-          "Payment Integration",
-          "AI Chatbot",
-        ],
-        projectCover: "/portfolio.png",
-        imagesFolder: "/",
-        url: "https://github.com/OmarMonem02/SubTrain",
-        points: [
-          "Led full mobile development lifecycle from design to deployment.",
-          "Implemented real-time ticket booking and confirmation APIs.",
-          "Integrated maps & GPS for station tracking and route guidance.",
-          "Built secure online payment flow.",
-          "Developed AI chatbot using Gemini API for user assistance.",
-          "Designed scalable architecture for future expansion.",
-        ],
-      },
     ];
 
-    return baseData.map((p) => {
+    return experianceProject.map((p) => {
       if (p.imagesFolder) {
         p.images = imagesIndex[p.imagesFolder] || [];
       }
@@ -179,7 +155,48 @@ export default function OmarPortfolio() {
       return p;
     });
   }, []);
+  const personalProjects = useMemo(() => {
+    const personalProject = [
+      {
+        title: "SubTrain Project – Graduation Project",
+        duration: "2024/3 – 2024/6",
+        desc: "Train & subway ticket booking mobile app with real-time services.",
+        tech: [
+          "Flutter",
+          "Realtime APIs",
+          "Firebase",
+          "Maps & GPS",
+          "Payment Integration",
+          "AI Chatbot",
+        ],
+        projectCover: "/SubTrain/Mockup.png",
+        imagesFolder: "/SubTrain",
+        url: "https://github.com/OmarMonem02/SubTrain",
+        points: [
+          "Led full mobile development lifecycle from design to deployment.",
+          "Implemented real-time ticket booking and confirmation APIs.",
+          "Integrated maps & GPS for station tracking and route guidance.",
+          "Built secure online payment flow.",
+          "Developed AI chatbot using Gemini API for user assistance.",
+          "Designed scalable architecture for future expansion.",
+        ],
+      },
+    ];
+    return personalProject.map((p) => {
+      if (p.imagesFolder) {
+        p.images = imagesIndex[p.imagesFolder] || [];
+      }
+      // ensure projectCover falls back to first image if missing
+      if (!p.projectCover) {
+        p.projectCover = p.images && p.images.length ? p.images[0] : null;
+      }
 
+      if (!p.projectCover) {
+        p.projectCover = p.images && p.images.length ? p.images[0] : null;
+      }
+      return p;
+    });
+  }, []);
   return (
     <div
       ref={containerRef}
@@ -463,16 +480,6 @@ export default function OmarPortfolio() {
                 " border rounded-3xl p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto backdrop-blur-xl shadow-2xl"
               }
             >
-              {activeProject.images && activeProject.images.length > 0 && (
-                <div className="mb-4 relative">
-                  <img
-                    src={activeProject.images[modalImageIndex]}
-                    alt={activeProject.title + " screenshot"}
-                    className="w-full h-44 object-cover rounded-xl"
-                  />
-                </div>
-              )}
-
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-xl font-semibold">
@@ -545,7 +552,7 @@ export default function OmarPortfolio() {
         {/* ================= HERO / PROFILE ================= */}
         <motion.section
           style={{ y: yHero }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center min-h-[85vh]"
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center min-h-[55vh]"
         >
           {/* RIGHT SIDE - CLEAN PROFILE FRAME */}
           <div className="flex justify-center">
@@ -849,11 +856,98 @@ export default function OmarPortfolio() {
           className="space-y-10"
         >
           <div>
-            <h2 className="text-3xl font-bold">Projects</h2>
+            <h2 className="text-3xl font-bold">Experiance Projects</h2>
             <div className="w-28 h-[3px] bg-indigo-500 rounded-full mt-2" />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {projects.map((project, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                whileHover={{ scale: 1.01 }}
+                onClick={() => {
+                  setActiveProject(project);
+                  setModalImageIndex(0);
+                }}
+                className={
+                  (dark
+                    ? "bg-white/5 border-white/20 hover:bg-white/10 hover:border-white/30"
+                    : "bg-white/70 border-gray-200 hover:bg-white/90 hover:border-gray-300") +
+                  " border rounded-2xl p-8 shadow-xl cursor-pointer backdrop-blur-xl transition duration-300 hover:shadow-2xl"
+                }
+              >
+                {(project.projectCover ||
+                  (project.images && project.images.length > 0)) && (
+                  <div className="mb-4 relative">
+                    <img
+                      src={project.projectCover || project.images[0]}
+                      alt={project.title + " screenshot"}
+                      className="w-full h-54 object-cover rounded-xl"
+                    />
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const imgs =
+                          project.images && project.images.length
+                            ? project.images
+                            : [project.projectCover];
+                        setImageViewer({ images: imgs, index: 0 });
+                      }}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="absolute top-3 right-3 p-2 rounded-full bg-black/10 backdrop-blur border border-white/20 text-white"
+                      aria-label={"Preview " + project.title}
+                    >
+                      <Eye size={16} />
+                    </motion.button>
+                  </div>
+                )}
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="font-semibold text-lg flex-1">
+                    {project.title}
+                  </h3>
+                </div>
+                <p className="text-xs opacity-60 mb-3 font-medium">
+                  {project.duration}
+                </p>
+                <p className="text-sm opacity-80 mb-4 leading-relaxed">
+                  {project.desc}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.slice(0, 3).map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="text-xs px-2 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                  {project.tech.length > 3 && (
+                    <span className="text-xs px-2 py-1 rounded-full opacity-60">
+                      +{project.tech.length - 3}
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+        <motion.section
+          ref={projectsRef}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } },
+          }}
+          className="space-y-10"
+        >
+          <div>
+            <h2 className="text-3xl font-bold">Personal Projects</h2>
+            <div className="w-28 h-[3px] bg-indigo-500 rounded-full mt-2" />
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {personalProjects.map((project, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
