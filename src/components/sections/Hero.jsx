@@ -15,8 +15,8 @@ export default function Hero({ dark, yHero, projectsRef, contactMeRef }) {
           whileHover={{ scale: 1.01 }}
           className="relative flex items-center justify-center"
         >
-          <div className="absolute w-[330px] h-[330px] rounded-full border border-indigo-500/30" />
-          <div className="absolute w-[360px] h-[360px] rounded-full bg-indigo-500/10 blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[330px] h-[330px] rounded-full border border-indigo-500/30" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-indigo-500/10 blur-[100px]" />
 
           <div
             className={

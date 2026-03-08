@@ -1,6 +1,40 @@
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Github, Linkedin, Mail, Phone, MapPin, Sun, Moon } from "lucide-react";
+
+const SKILLS = [
+  "Flutter & Dart",
+  "Laravel & MySQL",
+  "RESTful APIs",
+  "Bloc State Management",
+  "Firebase",
+  "Payment Integration",
+  "Maps & GPS",
+  "RBAC Systems",
+  "Git & Version Control",
+];
+
+const PROJECTS = [
+  {
+    title: "Shaffaf App",
+    desc: "Train & subway booking Flutter app with payments, maps and AI chatbot.",
+  },
+  {
+    title: "SubTrain",
+    desc: "Graduation project mobile app ranked A+ with Bloc architecture.",
+  },
+  {
+    title: "Localhub System",
+    desc: "Laravel & MySQL web system for sales, inventory and financial reports.",
+  },
+];
 
 const Button = ({ children, className, ...props }) => (
   <button
@@ -22,23 +56,36 @@ export default function OmarPortfolio() {
   const { scrollYProgress } = useScroll({ target: containerRef });
   const yHero = useTransform(scrollYProgress, [0, 1], [0, -120]); // fixed mobile disappearing bug
 
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [loading, setLoading] = useState(true);
   const [dark, setDark] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
+  const cursorX = useMotionValue(-400);
+  const cursorY = useMotionValue(-400);
+
+  const springConfig = { damping: 25, stiffness: 700 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1400); // faster intro performance
     setIsMobile(window.innerWidth < 768);
-    return () => clearTimeout(timer);
-  }, []);
 
-  const techStack = ["Flutter", "Laravel", "Firebase", "MySQL", "REST API"];
+    const moveCursor = (e) => {
+      cursorX.set(e.clientX - 150);
+      cursorY.set(e.clientY - 150);
+    };
+    window.addEventListener("mousemove", moveCursor);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("mousemove", moveCursor);
+    };
+  }, [cursorX, cursorY]);
 
   return (
     <div
       ref={containerRef}
-      onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
       className={
         (dark ? "bg-black text-white" : "bg-white text-black") +
         " min-h-screen relative overflow-hidden transition-colors duration-500"
@@ -80,9 +127,9 @@ export default function OmarPortfolio() {
 
       {/* CURSOR GLOW (disabled on mobile) */}
       {dark && !isMobile && (
-        <div
-          className="pointer-events-none fixed w-[300px] h-[300px] rounded-full bg-purple-600/20 blur-[120px] -translate-x-1/2 -translate-y-1/2 z-0"
-          style={{ left: cursor.x, top: cursor.y }}
+        <motion.div
+          className="pointer-events-none fixed top-0 left-0 w-[300px] h-[300px] rounded-full bg-purple-600/20 blur-[120px] z-0"
+          style={{ x: cursorXSpring, y: cursorYSpring }}
         />
       )}
 
@@ -113,8 +160,8 @@ export default function OmarPortfolio() {
               Flutter Engineer • Mobile & Web Developer
             </p>
             <p className="text-neutral-400 max-w-xl leading-relaxed mx-auto md:mx-0">
-              Building production-ready mobile and web applications using Flutter,
-              Laravel, and scalable backend systems.
+              Building production-ready mobile and web applications using
+              Flutter, Laravel, and scalable backend systems.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
@@ -173,9 +220,9 @@ export default function OmarPortfolio() {
         >
           <h2 className="text-3xl font-semibold">About Me</h2>
           <p className="text-neutral-400 leading-relaxed">
-            Junior Software Engineer specialized in Flutter development with strong
-            experience integrating REST APIs, payment systems, RBAC and real-time
-            data handling.
+            Junior Software Engineer specialized in Flutter development with
+            strong experience integrating REST APIs, payment systems, RBAC and
+            real-time data handling.
           </p>
         </motion.section>
 
@@ -185,17 +232,7 @@ export default function OmarPortfolio() {
             Technical Skills
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {[
-              "Flutter & Dart",
-              "Laravel & MySQL",
-              "RESTful APIs",
-              "Bloc State Management",
-              "Firebase",
-              "Payment Integration",
-              "Maps & GPS",
-              "RBAC Systems",
-              "Git & Version Control",
-            ].map((skill, i) => (
+            {SKILLS.map((skill, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
@@ -222,20 +259,7 @@ export default function OmarPortfolio() {
             Projects
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {[
-              {
-                title: "Shaffaf App",
-                desc: "Train & subway booking Flutter app with payments, maps and AI chatbot.",
-              },
-              {
-                title: "SubTrain",
-                desc: "Graduation project mobile app ranked A+ with Bloc architecture.",
-              },
-              {
-                title: "Localhub System",
-                desc: "Laravel & MySQL web system for sales, inventory and financial reports.",
-              },
-            ].map((project, i) => (
+            {PROJECTS.map((project, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 40 }}

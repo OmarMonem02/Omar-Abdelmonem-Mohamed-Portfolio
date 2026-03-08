@@ -28,8 +28,8 @@ export default function App() {
   const projectsRef = useRef(null);
   const contactMeRef = useRef(null);
 
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const yHero = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const { scrollY } = useScroll();
+  const yHero = useTransform(scrollY, [0, 500], [0, -120]);
 
   const { dark, toggleTheme } = useTheme();
 
@@ -52,6 +52,7 @@ export default function App() {
           : "bg-gradient-to-br from-[#f0f9ff] via-[#e0f2fe] to-[#fdf2f8] text-gray-900") +
         " min-h-screen relative overflow-hidden transition-colors duration-700"
       }
+      style={{ position: "relative" }}
     >
       {/* Background */}
       <BackgroundBlobs dark={dark} />

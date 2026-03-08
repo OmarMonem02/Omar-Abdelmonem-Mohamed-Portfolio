@@ -7,7 +7,10 @@ const blobAnimation = {
 
 export default function BackgroundBlobs({ dark }) {
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden">
+    <div
+      className="absolute inset-0 -z-10 overflow-hidden"
+      style={{ position: "absolute" }}
+    >
       {dark ? (
         <>
           <motion.div
