@@ -4,6 +4,15 @@ import imagesIndex from "../imagesIndex.json";
 
 const experienceProjectsRaw = [
   {
+    title: "Real Performance Garage ERP System – Web Developer",
+    duration: "2024/11 – 2025/3",
+    desc: "Web-based ERP system for Race Motor repair and Store shop built with Laravel and Next.Js.",
+    tech: ["Laravel", "MySQL", "REST APIs", "RBAC", "Next.Js"],
+    imagesFolder: "/RealPerformanceGarage",
+    url: "",
+    points: [],
+  },
+  {
     title: "Localhub System – Web Developer",
     duration: "2024/11 – 2025/3",
     desc: "Web-based sales, inventory, and financial management system built with Laravel.",
@@ -84,8 +93,7 @@ function attachImages(projects) {
       ...project,
       images,
       projectCover:
-        project.projectCover ||
-        (images.length > 0 ? images[0] : null),
+        project.projectCover || (images.length > 0 ? images[0] : null),
     };
   });
 }
