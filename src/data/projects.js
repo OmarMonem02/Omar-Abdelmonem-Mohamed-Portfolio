@@ -8,7 +8,7 @@ const experienceProjectsRaw = [
     duration: "2024/11 – 2025/3",
     desc: "Web-based ERP system for Race Motor repair and Store shop built with Laravel and Next.Js.",
     tech: ["Laravel", "MySQL", "REST APIs", "RBAC", "Next.Js"],
-    imagesFolder: "/RealPerformanceGarage",
+    imagesFolder: "/RPG",
     url: "",
     points: [],
   },
