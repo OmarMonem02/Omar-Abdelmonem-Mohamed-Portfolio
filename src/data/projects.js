@@ -5,7 +5,7 @@ import imagesIndex from "../imagesIndex.json";
 const experienceProjectsRaw = [
   {
     title: "Real Performance Garage ERP System – Web Developer",
-    duration: "2024/11 – 2025/3",
+    duration: "2026/4 – Present",
     desc: "Web-based ERP system for Race Motor repair and Store shop built with Laravel and Next.Js.",
     tech: ["Laravel", "MySQL", "REST APIs", "RBAC", "Next.Js"],
     imagesFolder: "/RPG",
